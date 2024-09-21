@@ -1,0 +1,5 @@
+# requirements.txt
+# Liste der notwendigen Python-Pakete für das Projekt
+
+pyyaml==6.0  # YAML-Bibliothek zum Laden und Speichern der Konfigurationsdaten
+# weitere Pakete hier

@@ -1,0 +1,12 @@
+# config.yml
+# Diese Datei speichert Konfigurationen wie Pfade und Logging-Einstellungen
+
+paths:
+  # Pfad zur JSON-Datei mit den Teilnehmerdaten
+  data_file: "garagentreff/teilnehmer.json"
+
+logging:
+  # Logging-Level (INFO, DEBUG, etc.)
+  level: "INFO"
+  # Pfad zur Log-Datei
+  file: "garagentreff.log"
