@@ -1,8 +1,14 @@
+# Module docstring (for the whole file):
+"""
+This module contains functions for managing participants in the Garagentreff application.
+"""
+
 import json
 import os
 import yaml
 import time
 import sys
+
 
 # Pfad zur YAML-Konfigurationsdatei
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "../config.yml")
@@ -58,14 +64,16 @@ def show_all_participants():
         print("Es sind keine Teilnehmer registriert.")
     else:
         for participant in participants:
-            print(f"{participant['first_name']} {participant['last_name']}, E-Mail: {participant['email']}, Telefon: {participant['phone']}")
+            print(f"{participant['first_name']} {participant['last_name']}, 
+            E-Mail: {participant['email']}, Telefon: {participant['phone']}")
 
 def show_participant():
     email = input("Gib die E-Mail-Adresse des Teilnehmers ein: ")
     participants = load_data()
     for participant in participants:
         if participant["email"] == email:
-            print(f"Gefundener Teilnehmer: {participant['first_name']} {participant['last_name']}, Telefon: {participant['phone']}")
+            print(f"Gefundener Teilnehmer: {participant['first_name']}
+                            {participant['last_name']}, Telefon: {participant['phone']}")
             return
     print(f"Es wurde kein Teilnehmer mit der E-Mail-Adresse {email} gefunden.")
 
