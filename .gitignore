@@ -162,5 +162,8 @@ cython_debug/
 #.idea/
 
 # Ignore Visual Studio files
-.vs/
+#.vs/
+
+# Ignore any sensitive or temporary configuration files
+secrets.yml
 
