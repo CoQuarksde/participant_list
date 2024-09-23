@@ -46,10 +46,10 @@ def get_non_empty_input(prompt):
 
 # Function to add a new participant
 def add_participant():
-    # Prompt for non-empty first name, last name, and email
-    first_name = get_non_empty_input("Enter your first name: ")
-    last_name = get_non_empty_input("Enter your last name: ")
-    email = get_non_empty_input("Enter your email address: ")
+    # Prompt for non-empty first name, last name, and email (user can exit with 'x')
+    first_name = get_non_empty_input("Enter your first name (or 'x' to exit): ")
+    last_name = get_non_empty_input("Enter your last name (or 'x' to exit): ")
+    email = get_non_empty_input("Enter your email address (or 'x' to exit): ")
 
     # Load existing participants
     participants = load_data()
@@ -61,7 +61,7 @@ def add_participant():
             return  # Exit the function if the email is already registered
 
     # If the email does not exist, proceed to collect the phone number
-    phone = get_non_empty_input("Enter your phone number: ")
+    phone = get_non_empty_input("Enter your phone number (or 'x' to exit): ")
 
     # Create a new participant entry
     new_participant = {
@@ -76,11 +76,6 @@ def add_participant():
     save_data(participants)
     print(f"{first_name} {last_name} was successfully added!")
 
-
-
-    # Save the updated participant list to the JSON file
-    save_data(participants)
-    print(f"{first_name} {last_name} was successfully added!")
 
 # Function to display all participants
 def show_all_participants():
