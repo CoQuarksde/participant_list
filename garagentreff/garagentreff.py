@@ -1,53 +1,69 @@
-# Module docstring (for the whole file):
-"""
-This module contains functions for managing participants in the Garagentreff application.
-"""
-
 import json
 import os
 import yaml
 import time
 import sys
 
-
-# Pfad zur YAML-Konfigurationsdatei
+# Path to the YAML configuration file
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "../config.yml")
 
-# Funktion, um die Konfiguration aus der config.yml zu laden
+# Function to load the YAML config file
 def load_config():
     with open(CONFIG_PATH, "r") as file:
         return yaml.safe_load(file)
 
-# Konfiguration wird geladen
+# Load the config
 config = load_config()
 
-# Pfad zur JSON-Datei mit den Teilnehmerdaten, aus der YAML-Konfiguration geladen
+# Path to the JSON file with participant data (loaded from YAML config)
 JSON_FILE = config['paths']['data_file']
 
-# Funktion, um die Teilnehmerdaten aus der JSON-Datei zu laden
+# Function to load participant data from the JSON file
 def load_data():
     if not os.path.exists(JSON_FILE):
         return []
-    with open(JSON_FILE, "r") as file:
+    with open(JSON_FILE, "r", encoding="utf-8") as file:
         return json.load(file)
 
+# Function to save participant data to the JSON file
 def save_data(data):
-    with open(JSON_FILE, "w") as file:
+    with open(JSON_FILE, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4)
 
-def add_participant():
-    first_name = input("Gib deinen Vornamen ein: ")
-    last_name = input("Gib deinen Nachnamen ein: ")
-    email = input("Gib deine E-Mail-Adresse ein: ")
-    phone = input("Gib deine Telefonnummer ein: ")
 
+# Function to get non-empty input from the user, with 'x' to exit
+def get_non_empty_input(prompt):
+    while True:
+        value = input(prompt).strip()  # Remove leading/trailing spaces
+        if value.lower() == 'x':
+            print("\nExiting the program.")
+            sys.exit()  # Exit the program when 'x' is entered
+        elif value:
+            return value
+        print("Input cannot be empty. Please enter a valid value.")
+        print("Or Exit the program with 'x'\n")
+
+
+# Function to add a new participant
+def add_participant():
+    # Prompt for non-empty first name, last name, and email
+    first_name = get_non_empty_input("Enter your first name: ")
+    last_name = get_non_empty_input("Enter your last name: ")
+    email = get_non_empty_input("Enter your email address: ")
+
+    # Load existing participants
     participants = load_data()
 
+    # Immediately check if the email already exists
     for participant in participants:
         if participant["email"] == email:
-            print(f"Ein Teilnehmer mit der E-Mail-Adresse {email} ist bereits registriert.")
-            return
+            print(f"A participant with the email {email} already exists.")
+            return  # Exit the function if the email is already registered
 
+    # If the email does not exist, proceed to collect the phone number
+    phone = get_non_empty_input("Enter your phone number: ")
+
+    # Create a new participant entry
     new_participant = {
         "first_name": first_name,
         "last_name": last_name,
@@ -55,37 +71,47 @@ def add_participant():
         "phone": phone
     }
     participants.append(new_participant)
-    save_data(participants)
-    print(f"{first_name} {last_name} wurde erfolgreich hinzugefügt!")
 
+    # Save the updated participant list to the JSON file
+    save_data(participants)
+    print(f"{first_name} {last_name} was successfully added!")
+
+
+
+    # Save the updated participant list to the JSON file
+    save_data(participants)
+    print(f"{first_name} {last_name} was successfully added!")
+
+# Function to display all participants
 def show_all_participants():
     participants = load_data()
     if not participants:
-        print("Es sind keine Teilnehmer registriert.")
+        print("\n No participants are registered.")
     else:
         for participant in participants:
-            print(f"{participant['first_name']} {participant['last_name']}, 
-            E-Mail: {participant['email']}, Telefon: {participant['phone']}")
+            print(f"{participant['first_name']} {participant['last_name']}, "
+                  f"Email: {participant['email']}, Phone: {participant['phone']}")
 
+# Function to display a specific participant by email
 def show_participant():
-    email = input("Gib die E-Mail-Adresse des Teilnehmers ein: ")
+    email = input("\nEnter the email address of the participant: ")
     participants = load_data()
     for participant in participants:
         if participant["email"] == email:
-            print(f"Gefundener Teilnehmer: {participant['first_name']}
-                            {participant['last_name']}, Telefon: {participant['phone']}")
+            print(f"Found participant: {participant['first_name']} {participant['last_name']}, "
+                  f"Phone: {participant['phone']}")
             return
-    print(f"Es wurde kein Teilnehmer mit der E-Mail-Adresse {email} gefunden.")
+    print(f"No participant found with the email address {email}.")
 
-# Hauptmenü des Programms
+# Main menu of the application
 def main():
     while True:
-        print("\n--- Garagentreff Teilnehmer Verwaltung ---")
-        print("1. Neuen Teilnehmer hinzufügen")
-        print("2. Alle Teilnehmer anzeigen")
-        print("3. Spezifischen Teilnehmer anzeigen")
-        print("4. Beenden")
-        choice = input("Wähle eine Option (1-4): ")
+        print("\n--- Garagentreff Participant Management ---")
+        print("1. Add a new participant")
+        print("2. Show all participants")
+        print("3. Show a specific participant")
+        print("4. Exit")
+        choice = input("Choose an option (1-4): ")
 
         if choice == "1":
             add_participant()
@@ -94,8 +120,8 @@ def main():
         elif choice == "3":
             show_participant()
         elif choice == "4":
-            print("Programm wird beendet.")
+            print("\nExiting the program.")
             time.sleep(1)
             sys.exit()
         else:
-            print("Ungültige Auswahl, bitte erneut versuchen.")
+            print("Invalid selection, please try again.")

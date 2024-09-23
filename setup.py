@@ -1,23 +1,23 @@
 # setup.py
-# Diese Datei macht das Projekt als Python-Paket installierbar
+# This file makes the project installable as a Python package
 
 from setuptools import setup, find_packages
 
-# Liest die Abhängigkeiten aus der requirements.txt-Datei
+# Reads the dependencies from the requirements.txt file
 with open("requirements.txt") as f:
     required = f.read().splitlines()
 
-# Setup-Informationen für das Paket
+# Setup information for the package
 setup(
-    name='garagentreff_teilnehmer',  # Name des Pakets
-    version='0.1',  # Versionsnummer
-    packages=find_packages(),  # Findet und listet alle Pakete auf
-    include_package_data=True,  # Stellt sicher, dass die JSON- und YAML-Dateien enthalten sind
-    install_requires=required,  # Installiert die in requirements.txt aufgeführten Abhängigkeiten
-    python_requires='>=3.8',  # Stellt sicher, dass Python 3.8 oder höher verwendet wird
+    name='garagentreff_participants',  # Name of the package
+    version='0.1',  # Version number
+    packages=find_packages(),  # Finds and lists all packages
+    include_package_data=True,  # Ensures that JSON and YAML files are included
+    install_requires=required,  # Installs the dependencies listed in requirements.txt
+    python_requires='>=3.8',  # Ensures that Python 3.8 or higher is used
     entry_points={
         'console_scripts': [
-            'garagentreff=garagentreff.garagentreff:main',  # Definiert den Konsolenbefehl "garagentreff"
+            'garagentreff=garagentreff.garagentreff:main',  # Defines the console command "garagentreff"
         ],
     },
 )
