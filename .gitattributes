@@ -1,0 +1,7 @@
+# Treat all .py and .ipynb files as Python
+*.py linguist-language=Python
+*.ipynb linguist-language=Python
+
+# Ignore some files from language stats
+*.html linguist-vendored
+*.css linguist-vendored
